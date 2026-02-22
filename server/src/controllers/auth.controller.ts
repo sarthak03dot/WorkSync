@@ -307,7 +307,7 @@ export const updateProfile = async (req: Request, res: Response): Promise<void> 
 // Update Dashboard Order
 export const updateDashboardOrder = async (req: Request, res: Response): Promise<void> => {
     try {
-        const userId = req.user?._id;
+        const userId = req.user?._id as any;
         const { order } = req.body;
 
         if (!Array.isArray(order)) {
