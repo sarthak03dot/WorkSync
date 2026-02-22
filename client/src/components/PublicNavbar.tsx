@@ -41,7 +41,6 @@ const PublicNavbar: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
@@ -50,14 +49,12 @@ const PublicNavbar: React.FC = () => {
     const handleClose = () => setAnchorEl(null);
 
     const scrollToSection = (href: string) => {
-        // If not on landing page, navigate there first
         if (location.pathname !== '/') {
             navigate('/' + href);
             setMobileOpen(false);
             return;
         }
 
-        // If on landing page, smooth scroll to section
         const element = document.querySelector(href);
         if (element) {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -193,19 +190,29 @@ const PublicNavbar: React.FC = () => {
 
                         <Box sx={{ flexGrow: 1 }} />
 
+                        {/* --- FIXED THEME TOGGLE BUTTON HERE --- */}
                         <Tooltip title={`Switch to ${themeMode === 'light' ? 'Dark' : 'Light'} Mode`}>
                             <IconButton
                                 onClick={toggleTheme}
-                                color="inherit"
                                 sx={{
-                                    bgcolor: 'action.hover',
-                                    '&:hover': { bgcolor: 'primary.main', color: 'white' },
-                                    mr: 1
+                                    width: 40,
+                                    height: 40,
+                                    // Soft transparent background based on theme
+                                    bgcolor: themeMode === 'light' ? 'rgba(99, 102, 241, 0.08)' : 'rgba(255, 255, 255, 0.08)',
+                                    // Icon color matches primary in light mode, white in dark mode
+                                    color: themeMode === 'light' ? 'primary.main' : 'common.white',
+                                    '&:hover': {
+                                        bgcolor: themeMode === 'light' ? 'rgba(99, 102, 241, 0.15)' : 'rgba(255, 255, 255, 0.15)',
+                                        transform: 'rotate(15deg)' // Smooth interaction
+                                    },
+                                    transition: 'all 0.3s ease',
+                                    mr: { xs: 1, md: 2 } // Proper spacing before the nav links
                                 }}
                             >
-                                {themeMode === 'light' ? <DarkModeIcon /> : <LightModeIcon />}
+                                {themeMode === 'light' ? <DarkModeIcon fontSize="small" /> : <LightModeIcon fontSize="small" />}
                             </IconButton>
                         </Tooltip>
+                        {/* -------------------------------------- */}
 
                         {isMobile ? (
                             <IconButton
