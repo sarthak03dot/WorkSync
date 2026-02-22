@@ -360,7 +360,7 @@ export const googleCallback = async (req: Request, res: Response): Promise<void>
     const code = req.query.code as string;
 
     if (!code) {
-        res.redirect(`${process.env.FRONTEND_URL || "http://localhost:5173"}/login?error=GoogleAuthFailed`);
+        res.redirect(`${process.env.FRONTEND_URL}/login?error=GoogleAuthFailed`);
         return;
     }
 
@@ -369,7 +369,7 @@ export const googleCallback = async (req: Request, res: Response): Promise<void>
         const googleUser = await getGoogleUser({ id_token, access_token });
 
         if (!googleUser.verified_email) {
-            res.redirect(`${process.env.FRONTEND_URL || "http://localhost:5173"}/login?error=GoogleEmailNotVerified`);
+            res.redirect(`${process.env.FRONTEND_URL}/login?error=GoogleEmailNotVerified`);
             return;
         }
 
@@ -396,10 +396,10 @@ export const googleCallback = async (req: Request, res: Response): Promise<void>
         user.refreshToken.push(refreshToken);
         await user.save();
 
-        res.redirect(`${process.env.FRONTEND_URL || "http://localhost:5173"}/dashboard`);
+        res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
     } catch (error) {
         console.error("Google Auth Error:", error);
-        res.redirect(`${process.env.FRONTEND_URL || "http://localhost:5173"}/login?error=ServerGoogleAuthError`);
+        res.redirect(`${process.env.FRONTEND_URL}/login?error=ServerGoogleAuthError`);
     }
 };
 
