@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Post from "../models/post.model";
 import User from "../models/user.model";
 import { v4 as uuidv4 } from 'uuid';
+import { uploadToCloudinary } from "../config/cloudinary.config";
 
 // Create Post
 export const createPost = async (req: Request, res: Response): Promise<void> => {
@@ -253,6 +254,8 @@ export const addComment = async (req: Request, res: Response): Promise<void> => 
 };
 
 // Upload Image
+
+
 export const uploadImage = async (req: Request, res: Response): Promise<void> => {
     try {
         if (!req.file) {
@@ -260,10 +263,14 @@ export const uploadImage = async (req: Request, res: Response): Promise<void> =>
             return;
         }
 
-        const file = req.file as any;
+        const buffer = req.file.buffer;
+
+        const result: any = await uploadToCloudinary(buffer, "user_posts");
+
         res.status(200).json({
-            imageUrl: file.path, // Cloudinary URL
-            mediaType: file.mimetype?.startsWith('video') ? 'video' : 'image'
+            imageUrl: result.secure_url,   // Cloudinary URL
+            mediaType: req.file.mimetype.startsWith("video") ? "video" : "image",
+            public_id: result.public_id
         });
     } catch (error: unknown) {
         if (error instanceof Error) {
