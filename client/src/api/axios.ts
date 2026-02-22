@@ -33,15 +33,12 @@ const processQueue = (error: unknown, token: string | null = null) => {
 api.interceptors.request.use(
     (config) => {
         try {
-            // Check if user exists in localStorage
-            if (localStorage.getItem("user")) {
-                const token = window.accessToken;
-                if (token) {
-                    config.headers.Authorization = `Bearer ${token}`;
-                }
+            const token = window.accessToken;
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
             }
         } catch (e) {
-            console.error("Error checking user from localStorage", e);
+            console.error("Error checking token", e);
         }
         return config;
     },

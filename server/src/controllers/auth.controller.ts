@@ -198,8 +198,13 @@ export const logout = async (req: Request, res: Response): Promise<void> => {
 
     // Is refreshToken in db?
     const user = await User.findOne({ refreshToken }).exec();
+    const isProduction = process.env.NODE_ENV === "production";
     if (!user) {
-        res.clearCookie("jwt", { httpOnly: true, sameSite: "strict", secure: process.env.NODE_ENV !== "development" });
+        res.clearCookie("jwt", {
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax"
+        });
         res.sendStatus(204);
         return;
     }
@@ -208,7 +213,11 @@ export const logout = async (req: Request, res: Response): Promise<void> => {
     user.refreshToken = user.refreshToken.filter(rt => rt !== refreshToken);
     await user.save();
 
-    res.clearCookie("jwt", { httpOnly: true, sameSite: "strict", secure: process.env.NODE_ENV !== "development" });
+    res.clearCookie("jwt", {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax"
+    });
     res.sendStatus(204);
 };
 
