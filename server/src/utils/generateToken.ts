@@ -14,12 +14,12 @@ const generateTokens = (userId: string, res: Response) => {
     // Calculate expiresAt (current time + 15 minutes)
     const expiresAt = Date.now() + accessTokenExpiresIn * 60 * 1000;
 
-    res.cookie("jwt", refreshToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV !== "development",
-        sameSite: "strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+ res.cookie("jwt", refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== "development",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+});
 
     return { accessToken, refreshToken, expiresAt };
 };
