@@ -115,13 +115,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         hasInitialCheck.current = true;
 
         try {
-            const { data } = await api.get("/auth/refresh");
-            const newAccessToken = data.accessToken;
-            setAccessToken(newAccessToken);
-            if (data.expiresAt) setExpiryTime(data.expiresAt);
+            // Check for tokens in URL (e.g., after Google Login redirect)
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlAccessToken = urlParams.get("accessToken");
+            const urlExpiresAt = urlParams.get("expiresAt");
 
+            if (urlAccessToken) {
+                setAccessToken(urlAccessToken);
+                if (urlExpiresAt) setExpiryTime(parseInt(urlExpiresAt));
 
-            await fetchMe();
+                // Clean up URL params
+                urlParams.delete("accessToken");
+                urlParams.delete("expiresAt");
+                const newRelativePathQuery = window.location.pathname + (urlParams.toString() ? `?${urlParams.toString()}` : "");
+                window.history.replaceState(null, "", newRelativePathQuery);
+
+                await fetchMe();
+            } else {
+                // Regular session refresh
+                const { data } = await api.get("/auth/refresh");
+                const newAccessToken = data.accessToken;
+                setAccessToken(newAccessToken);
+                if (data.expiresAt) setExpiryTime(data.expiresAt);
+                await fetchMe();
+            }
         } catch (error) {
             setUser(null);
             setAccessToken(null);

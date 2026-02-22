@@ -391,12 +391,12 @@ export const googleCallback = async (req: Request, res: Response): Promise<void>
             await user.save();
         }
 
-        const { accessToken, refreshToken } = generateTokens(user._id.toString(), res);
+        const { accessToken, refreshToken, expiresAt } = generateTokens(user._id.toString(), res);
 
         user.refreshToken.push(refreshToken);
         await user.save();
 
-        res.redirect(`${process.env.FRONTEND_URL || "http://localhost:5173"}/dashboard`);
+        res.redirect(`${process.env.FRONTEND_URL || "http://localhost:5173"}/dashboard?accessToken=${accessToken}&expiresAt=${expiresAt}`);
     } catch (error) {
         console.error("Google Auth Error:", error);
         res.redirect(`${process.env.FRONTEND_URL || "http://localhost:5173"}/login?error=ServerGoogleAuthError`);
