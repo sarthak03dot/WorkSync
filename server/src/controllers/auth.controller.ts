@@ -25,6 +25,9 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
 
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
         const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
+        if (process.env.NODE_ENV !== "production") {
+            console.log(`[TESTING] Generated OTP for signup: ${otp}`);
+        }
 
         const user = await User.create({
             email,

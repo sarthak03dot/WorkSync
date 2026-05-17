@@ -62,12 +62,12 @@ const CTASection: React.FC = () => {
                             borderRadius: '50px',
                             fontSize: '1.2rem',
                             fontWeight: 800,
-                            bgcolor: 'white',
+                            background: '#ffffff !important',
                             color: 'primary.main',
                             boxShadow: `0 20px 40px -10px ${alpha(theme.palette.primary.main, 0.3)}`,
                             transition: 'all 0.3s ease',
                             '&:hover': {
-                                bgcolor: '#f8fafc',
+                                background: '#f8fafc !important',
                                 transform: 'translateY(-4px)',
                                 boxShadow: `0 25px 50px -12px ${alpha(theme.palette.secondary.main, 0.4)}`
                             }
@@ -87,12 +87,12 @@ const CTASection: React.FC = () => {
                             borderRadius: '50px',
                             fontSize: '1.2rem',
                             fontWeight: 800,
-                            bgcolor: 'white',
+                            background: '#ffffff !important',
                             color: 'primary.main',
                             boxShadow: `0 20px 40px -10px ${alpha(theme.palette.primary.main, 0.3)}`,
                             transition: 'all 0.3s ease',
                             '&:hover': {
-                                bgcolor: '#f8fafc',
+                                background: '#f8fafc !important',
                                 transform: 'translateY(-4px)',
                                 boxShadow: `0 25px 50px -12px ${alpha(theme.palette.secondary.main, 0.4)}`
                             }

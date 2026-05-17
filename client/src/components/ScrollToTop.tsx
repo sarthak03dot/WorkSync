@@ -46,7 +46,7 @@ const ScrollToTop = () => {
                     bottom: 32,
                     right: 32,
                     zIndex: 2000,
-                    display: 'flex',
+                    display: { xs: 'none', md: 'flex' },
                     alignItems: 'center',
                     justifyContent: 'center',
                 }}

@@ -50,40 +50,47 @@ const DevCardModal: React.FC<DevCardModalProps> = ({ open, onClose, user, totalR
             PaperProps={{
                 sx: {
                     borderRadius: 6,
-                    overflow: 'visible',
-                    bgcolor: 'transparent',
-                    boxShadow: 'none',
-                    margin: 2
+                    overflow: 'hidden',
+                    bgcolor: '#050505',
+                    boxShadow: '0 50px 100px rgba(0,0,0,0.9)',
+                    margin: { xs: 1, sm: 2 },
+                    maxWidth: '100vw',
+                    border: '1px solid rgba(255,255,255,0.08)'
                 }
             }}
         >
-            <Box sx={{ position: 'relative' }}>
-                {/* Header Actions */}
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: 'auto'
+            }}>
+                {/* Header Actions - Inside dialog to avoid vertical clipping */}
                 <Box sx={{
-                    position: 'absolute',
-                    top: -60,
-                    right: 0,
-                    left: 0,
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    px: 1
+                    px: 3,
+                    py: 2,
+                    bgcolor: '#050505',
+                    borderBottom: '1px solid rgba(255,255,255,0.08)',
+                    zIndex: 10
                 }}>
-                    <Typography variant="h5" sx={{ color: 'white', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 2 }}>
+                    <Typography variant="h6" sx={{ color: 'white', fontWeight: 900, textTransform: 'uppercase', letterSpacing: 1.5, fontSize: '1rem' }}>
                         Preview Dev Card
                     </Typography>
-                    <Stack direction="row" spacing={2} alignItems="center">
+                    <Stack direction="row" spacing={1.5} alignItems="center">
                         <Button
                             variant="contained"
+                            size="small"
                             startIcon={<DownloadIcon />}
                             onClick={handleDownload}
                             sx={{
-                                borderRadius: 4,
-                                px: 4,
-                                py: 1.2,
+                                borderRadius: 3,
+                                px: { xs: 2, sm: 4 },
+                                py: { xs: 0.8, sm: 1.2 },
                                 fontWeight: 900,
                                 textTransform: 'uppercase',
-                                fontSize: '0.9rem',
+                                fontSize: { xs: '0.75rem', sm: '0.9rem' },
                                 background: 'linear-gradient(45deg, #6366f1 30%, #a855f7 90%)',
                                 boxShadow: '0 8px 20px rgba(99,102,241,0.4)',
                                 '&:hover': {
@@ -96,6 +103,7 @@ const DevCardModal: React.FC<DevCardModalProps> = ({ open, onClose, user, totalR
                         </Button>
                         <IconButton
                             onClick={onClose}
+                            size="small"
                             sx={{
                                 bgcolor: 'rgba(255,255,255,0.1)',
                                 backdropFilter: 'blur(10px)',
@@ -103,13 +111,25 @@ const DevCardModal: React.FC<DevCardModalProps> = ({ open, onClose, user, totalR
                                 '&:hover': { bgcolor: 'error.light' }
                             }}
                         >
-                            <CloseIcon />
+                            <CloseIcon fontSize="small" />
                         </IconButton>
                     </Stack>
                 </Box>
 
-                <DialogContent sx={{ p: 0, overflow: 'hidden' }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <DialogContent sx={{
+                    p: 0,
+                    overflowX: 'auto',
+                    maxWidth: '100vw',
+                    bgcolor: '#050505',
+                    '&::-webkit-scrollbar': {
+                        height: '6px'
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                        bgcolor: 'rgba(255, 255, 255, 0.2)',
+                        borderRadius: '3px'
+                    }
+                }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-start', minWidth: 900, p: { xs: 1, sm: 0 } }}>
                         <DevCard user={user} totalRating={totalRating} />
                     </Box>
                 </DialogContent>

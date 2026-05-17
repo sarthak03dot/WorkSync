@@ -101,7 +101,7 @@ export const getTheme = (mode: 'light' | 'dark'): ThemeOptions => ({
         },
     },
     shape: {
-        borderRadius: 12,
+        borderRadius: 2,
     },
     components: {
         MuiCssBaseline: {
@@ -113,7 +113,7 @@ export const getTheme = (mode: 'light' | 'dark'): ThemeOptions => ({
                         height: '8px',
                     },
                     '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
-                        borderRadius: '8px',
+                        borderRadius: '2px',
                         backgroundColor: mode === 'light' ? '#cbd5e1' : '#374151',
                         border: '3px solid transparent',
                         backgroundClip: 'content-box',
@@ -127,7 +127,7 @@ export const getTheme = (mode: 'light' | 'dark'): ThemeOptions => ({
         MuiButton: {
             styleOverrides: {
                 root: {
-                    borderRadius: '10px',
+                    borderRadius: '2px',
                     padding: '8px 20px',
                     boxShadow: 'none',
                     transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -181,7 +181,7 @@ export const getTheme = (mode: 'light' | 'dark'): ThemeOptions => ({
         MuiCard: {
             styleOverrides: {
                 root: {
-                    borderRadius: '16px',
+                    borderRadius: '2px',
                     border: mode === 'light' ? '1px solid rgba(226, 232, 240, 0.5)' : '1px solid rgba(31, 41, 55, 0.5)',
                     backdropFilter: 'blur(10px)',
                     background: mode === 'light' ? '#ffffff' : '#1f2937',
@@ -202,7 +202,7 @@ export const getTheme = (mode: 'light' | 'dark'): ThemeOptions => ({
             styleOverrides: {
                 root: {
                     '& .MuiOutlinedInput-root': {
-                        borderRadius: '10px',
+                        borderRadius: '2px',
                         transition: 'all 0.2s',
                         '& fieldset': {
                             borderColor: mode === 'light' ? '#e2e8f0' : '#374151',
@@ -222,7 +222,7 @@ export const getTheme = (mode: 'light' | 'dark'): ThemeOptions => ({
         MuiChip: {
             styleOverrides: {
                 root: {
-                    borderRadius: '8px',
+                    borderRadius: '2px',
                     fontWeight: 500,
                 },
             },

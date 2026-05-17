@@ -496,25 +496,28 @@ const Dashboard = () => {
         avatar: { width: { xs: 40, sm: 48 }, height: { xs: 40, sm: 48 }, border: '2.5px solid', borderColor: 'primary.main', p: 0.3 },
         username: { fontWeight: 900, lineHeight: 1, mb: 0.5, fontSize: { xs: '1rem', sm: '1.25rem' } },
         tagline: { fontWeight: 700, letterSpacing: 0.5, fontSize: { xs: '0.65rem', sm: '0.75rem' } },
-        actionsBox: { display: 'flex', gap: 2, width: { xs: '100%', md: 'auto' }, mt: { xs: 2, md: 0 } },
+        actionsBox: { display: 'flex', gap: { xs: 1, sm: 2 }, width: { xs: '100%', md: 'auto' }, mt: { xs: 2, md: 0 }, alignItems: 'center' },
         verifiedChip: {
-            fontWeight: 900,
             borderRadius: '50%',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: 44,
-            width: 44,
-            fontSize: { xs: '0.75rem', sm: '0.875rem' },
-            boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+            height: { xs: 40, sm: 44 },
+            width: { xs: 40, sm: 44 },
+            minWidth: { xs: 40, sm: 44 },
+            boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+            transition: 'all 0.2s ease-in-out',
+            '&:hover': {
+                transform: 'scale(1.05)'
+            }
         },
         addfeedChip: {
             fontWeight: 900,
             borderRadius: 3,
             flex: { xs: 1, md: 'none' },
             height: 44,
-            px: 1,
-            fontSize: { xs: '0.75rem', sm: '0.875rem' },
+            px: { xs: 0.5, sm: 1.5 },
+            fontSize: { xs: '0.72rem', sm: '0.875rem' },
             boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
             cursor: 'pointer',
             transition: 'all 0.2s ease-in-out',
@@ -573,11 +576,18 @@ const Dashboard = () => {
                             sx={styles.addfeedChip}
                         />
 
-                        <Chip
-                            icon={user?.isVerified ? <VerifiedIcon /> : <UnverifiedIcon />}
-                            color={user?.isVerified ? "success" : "warning"}
-                            sx={styles.verifiedChip}
-                        />
+                        <Tooltip title={user?.isVerified ? "Account Verified" : "Account Unverified"}>
+                            <Box
+                                sx={{
+                                    ...styles.verifiedChip,
+                                    bgcolor: user?.isVerified ? 'success.main' : 'warning.main',
+                                    color: 'white',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                {user?.isVerified ? <VerifiedIcon fontSize="medium" /> : <UnverifiedIcon fontSize="medium" />}
+                            </Box>
+                        </Tooltip>
                     </Box>
                 </Box>
 

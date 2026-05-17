@@ -1,5 +1,5 @@
 import { useMemo, lazy, Suspense } from "react";
-import { ThemeProvider as MuiThemeProvider, createTheme, CssBaseline, Box, CircularProgress } from "@mui/material";
+import { ThemeProvider as MuiThemeProvider, createTheme, CssBaseline, Box } from "@mui/material";
 import { getTheme } from "./theme";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
@@ -31,13 +31,13 @@ const Terms = lazy(() => import("./pages/Terms"));
 const Security = lazy(() => import("./pages/Security"));
 const Status = lazy(() => import("./pages/Status"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-import ScrollToTop from "./components/ScrollToTop";
+// import ScrollToTop from "./components/ScrollToTop";
 import CursorFollower from "./components/common/CursorFollower";
 import { Outlet } from "react-router-dom";
 
 const LayoutWrapper = () => (
   <>
-    <ScrollToTop />
+    {/* <ScrollToTop /> */}
     <CursorFollower />
     <Outlet />
   </>
@@ -47,14 +47,26 @@ const LoadingFallback = () => (
   <Box
     sx={{
       display: 'flex',
+      flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
       height: '100vh',
       width: '100vw',
-      bgcolor: 'background.default'
+      bgcolor: 'background.default',
+      gap: 2
     }}
   >
-    <CircularProgress size={60} thickness={4} />
+    <Box sx={{
+        width: 60,
+        height: 60,
+        borderRadius: 3,
+        bgcolor: 'primary.main',
+        animation: 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        '@keyframes pulse': {
+            '0%, 100%': { opacity: 1, transform: 'scale(1)' },
+            '50%': { opacity: .5, transform: 'scale(0.8)' },
+        }
+    }} />
   </Box>
 );
 

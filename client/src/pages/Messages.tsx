@@ -82,22 +82,38 @@ const Messages: React.FC = () => {
         }
     }, [socket]);
 
+    useEffect(() => {
+        if (selectedConversation) {
+            document.body.classList.add('hide-bottom-bar');
+        } else {
+            document.body.classList.remove('hide-bottom-bar');
+        }
+        return () => {
+            document.body.classList.remove('hide-bottom-bar');
+        };
+    }, [selectedConversation]);
+
     const handleSelectConversation = (conv: any) => {
         setSelectedConversation(conv);
     };
 
     return (
-        <Container maxWidth="lg" sx={{
-            py: { xs: 1, md: 4 },
-            height: { xs: 'calc(100vh - 64px)', md: 'calc(100vh - 100px)' },
-            display: 'flex',
-            flexDirection: 'column'
-        }}>
-            <Paper elevation={3} sx={{
+        <Container 
+            maxWidth="lg" 
+            disableGutters={selectedConversation ? true : false}
+            sx={{
+                p: { xs: selectedConversation ? 0 : 1, md: 4 },
+                py: { xs: selectedConversation ? 0 : 1, md: 4 },
+                height: { xs: selectedConversation ? '100vh' : 'calc(100vh - 164px)', md: 'calc(100vh - 100px)' },
+                display: 'flex',
+                flexDirection: 'column'
+            }}
+        >
+            <Paper elevation={selectedConversation ? 0 : 3} sx={{
                 flex: 1,
                 display: 'flex',
                 overflow: 'hidden',
-                borderRadius: 2,
+                borderRadius: { xs: selectedConversation ? 0 : 2, md: 2 },
                 bgcolor: 'background.paper',
                 mb: { xs: 0, md: 0 }
             }}>

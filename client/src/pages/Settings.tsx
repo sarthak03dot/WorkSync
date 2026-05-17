@@ -91,18 +91,29 @@ const Settings = () => {
                 </Box>
             </Box>
 
-            <Paper sx={{ p: 4, mb: 4, borderRadius: 3, display: 'flex', alignItems: 'center', gap: 3, bgcolor: 'primary.main', color: 'primary.contrastText' }}>
+            <Paper sx={{
+                p: { xs: 3, sm: 4 },
+                mb: 4,
+                borderRadius: 3,
+                display: 'flex',
+                flexDirection: { xs: 'column', sm: 'row' },
+                alignItems: 'center',
+                textAlign: { xs: 'center', sm: 'left' },
+                gap: 3,
+                bgcolor: 'primary.main',
+                color: 'primary.contrastText'
+            }}>
                 <Avatar
                     src={user?.avatar}
                     sx={{ width: 80, height: 80, border: '4px solid rgba(255,255,255,0.3)' }}
                 >
                     {user?.name?.[0]}
                 </Avatar>
-                <Box sx={{ flexGrow: 1 }}>
+                <Box sx={{ flexGrow: 1, width: '100%' }}>
                     <Typography variant="h5" sx={{ fontWeight: 700 }}>{user?.name}</Typography>
                     <Typography variant="body1" sx={{ opacity: 0.8 }}>{user?.email}</Typography>
                 </Box>
-                <Button variant="contained" color="inherit" onClick={() => navigate("/profile")} sx={{ color: 'primary.main', fontWeight: 700, borderRadius: 10 }}>
+                <Button variant="contained" color="inherit" onClick={() => navigate("/profile")} sx={{ color: 'primary.main', fontWeight: 700, borderRadius: 10, width: { xs: '100%', sm: 'auto' } }}>
                     View Profile
                 </Button>
             </Paper>

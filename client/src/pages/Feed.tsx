@@ -11,12 +11,14 @@ import { Search as SearchIcon } from "@mui/icons-material";
 import { useAuth } from "../context/AuthContext";
 import api from "../api/axios";
 import Loader from "../components/Loader";
+import { PostSkeleton } from "../components/common/Skeletons";
 
 // Modular Components
 import FeedHeader from "../components/feed/FeedHeader";
 import CreatePost from "../components/feed/CreatePost";
 import PostItem from "../components/feed/PostItem";
 import CommentModal from "../components/feed/CommentModal";
+import { useLocation } from "react-router-dom";
 import { deleteComment as deleteCommentService } from "../services/socialService";
 import { useToast } from "../context/ToastContext";
 
@@ -54,6 +56,7 @@ interface Post {
 
 const Feed = () => {
     const { user } = useAuth();
+    const location = useLocation();
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
     const [title, setTitle] = useState("");
@@ -77,6 +80,14 @@ const Feed = () => {
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [isFetchingMore, setIsFetchingMore] = useState(false);
+
+    useEffect(() => {
+        const queryParams = new URLSearchParams(location.search);
+        if (queryParams.get('create') === 'true') {
+            setIsExpanded(true);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }, [location.search]);
 
     // Debounce search
     useEffect(() => {
@@ -432,9 +443,9 @@ const Feed = () => {
                 />
 
                 {loading ? (
-                    <Box sx={styles.loadingContainer}>
-                        <Loader />
-                    </Box>
+                    <Stack spacing={4} sx={{ mt: 2 }}>
+                        {[1, 2, 3].map((n) => <PostSkeleton key={n} />)}
+                    </Stack>
                 ) : (
                     <Stack spacing={4}>
                         {posts.map((post, index) => (

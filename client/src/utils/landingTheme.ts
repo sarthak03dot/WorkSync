@@ -9,28 +9,28 @@ export const getLandingColors = (theme: Theme) => {
 
     return {
         // Backgrounds
-        bg: isDark ? '#000' : '#ffffff',
-        bgAlt: isDark ? '#050505' : '#f8fafc',
-        bgCard: isDark ? 'rgba(255,255,255,0.01)' : 'rgba(0,0,0,0.02)',
-        bgCardHover: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.04)',
-        bgDark: isDark ? '#0d0d12' : '#e2e8f0',
-        bgDarker: isDark ? '#1a1a1e' : '#cbd5e1',
+        bg: theme.palette.background.default,
+        bgAlt: theme.palette.mode === 'light' ? '#f8fafc' : 'rgba(255, 255, 255, 0.02)',
+        bgCard: theme.palette.mode === 'light' ? 'rgba(0,0,0,0.02)' : 'rgba(255,255,255,0.02)',
+        bgCardHover: theme.palette.mode === 'light' ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.04)',
+        bgDark: theme.palette.mode === 'light' ? '#e2e8f0' : 'rgba(0, 0, 0, 0.4)',
+        bgDarker: theme.palette.mode === 'light' ? '#cbd5e1' : 'rgba(0, 0, 0, 0.6)',
 
         // Text colors
-        text: isDark ? '#ffffff' : '#1e293b',
-        textSecondary: isDark ? '#94a3b8' : '#64748b',
-        textMuted: isDark ? '#64748b' : '#94a3b8',
-        textLight: isDark ? '#475569' : '#cbd5e1',
+        text: theme.palette.text.primary,
+        textSecondary: theme.palette.text.secondary,
+        textMuted: theme.palette.mode === 'light' ? '#94a3b8' : '#64748b',
+        textLight: theme.palette.mode === 'light' ? '#cbd5e1' : '#475569',
 
         // Brand colors (consistent across themes)
-        primary: '#6366f1',
-        secondary: '#ec4899',
-        accent: '#818cf8',
-        accentAlt: '#f472b6',
+        primary: theme.palette.primary.main,
+        secondary: theme.palette.secondary.main,
+        accent: theme.palette.primary.light || '#818cf8',
+        accentAlt: theme.palette.secondary.light || '#f472b6',
 
         // Border colors
-        border: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.08)',
-        borderHover: isDark ? 'rgba(99,102,241,0.3)' : 'rgba(99,102,241,0.4)',
+        border: theme.palette.divider,
+        borderHover: theme.palette.mode === 'light' ? 'rgba(99,102,241,0.4)' : 'rgba(99,102,241,0.3)',
 
         // Shadows
         shadow: isDark ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.1)',

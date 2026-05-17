@@ -28,7 +28,8 @@ import {
     TextField,
     Alert,
     Menu,
-    MenuItem
+    MenuItem,
+    alpha
 } from '@mui/material';
 import {
     ExpandMore as ExpandMoreIcon,
@@ -118,11 +119,11 @@ const Documentation: React.FC = () => {
     }, [searchQuery]);
 
     const colors = {
-        primary: '#6366f1',
-        secondary: '#8b5cf6',
-        accent: '#06b6d4',
-        bg: theme.palette.mode === 'light' ? '#f8fafc' : '#020617',
-        glass: theme.palette.mode === 'light' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(15, 23, 42, 0.7)'
+        primary: theme.palette.primary.main,
+        secondary: theme.palette.secondary.main,
+        accent: theme.palette.secondary.light,
+        bg: theme.palette.background.default,
+        glass: theme.palette.mode === 'light' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(17, 24, 39, 0.7)'
     };
 
     const styles = {
@@ -811,7 +812,7 @@ const Documentation: React.FC = () => {
                                                         </Alert>
 
                                                         {guide.breaking.length > 0 && (
-                                                            <Paper sx={{ p: 3, mb: 3, borderRadius: 3, border: '2px solid', borderColor: 'error.main', bgcolor: 'error.lighter' }}>
+                                                            <Paper sx={{ p: 3, mb: 3, borderRadius: 3, border: '2px solid', borderColor: 'error.main', bgcolor: alpha(theme.palette.error.main, 0.08) }}>
                                                                 <Typography variant="h6" sx={{ fontWeight: 800, mb: 2, color: 'error.main' }}>
                                                                     ⚠️ Breaking Changes
                                                                 </Typography>
@@ -839,7 +840,7 @@ const Documentation: React.FC = () => {
                                                         </Paper>
 
                                                         {guide.notes.length > 0 && (
-                                                            <Paper sx={{ p: 3, borderRadius: 3, border: '1px solid', borderColor: 'info.main', bgcolor: 'info.lighter' }}>
+                                                            <Paper sx={{ p: 3, borderRadius: 3, border: '1px solid', borderColor: 'info.main', bgcolor: alpha(theme.palette.info.main, 0.08) }}>
                                                                 <Typography variant="h6" sx={{ fontWeight: 800, mb: 2, color: 'info.main' }}>
                                                                     💡 Important Notes
                                                                 </Typography>

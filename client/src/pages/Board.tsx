@@ -33,15 +33,16 @@ import {
     Tabs,
     Tab,
     useMediaQuery,
-    useTheme as useMuiTheme
+    useTheme as useMuiTheme,
+    Skeleton
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DragIcon from "@mui/icons-material/DragIndicator";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CustomAlert from "../components/common/CustomAlert";
 import { useToast } from "../context/ToastContext";
-import Loader from "../components/Loader";
 import KanbanColumn from "../components/board/KanbanColumn";
+import { BoardSkeleton } from "../components/common/Skeletons";
 import { Task } from "../components/board/TaskCard";
 
 const COLUMNS = [
@@ -291,7 +292,19 @@ const Board = () => {
         }
     };
 
-    if (loading) return <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}><Loader fullPage /></Box>;
+    if (loading) return (
+        <Box sx={boardStyles.container}>
+            <Box sx={boardStyles.header}>
+                 <Box>
+                      <Skeleton animation="wave" height={20} width={120} sx={{ mb: 1.5 }} />
+                      <Skeleton animation="wave" height={60} width={200} sx={{ mb: 1 }} />
+                      <Skeleton animation="wave" height={20} width={250} />
+                 </Box>
+                 <Skeleton animation="wave" variant="rectangular" height={50} sx={{ borderRadius: 4, width: { xs: '100%', md: 450 } }} />
+            </Box>
+            <BoardSkeleton />
+        </Box>
+    );
 
     const activeTask = activeId ? tasks.find(t => t._id === activeId) : null;
 

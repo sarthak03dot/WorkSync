@@ -207,8 +207,8 @@ const HeroSection: React.FC = () => {
                                     position: 'relative',
                                     backdropFilter: 'blur(20px)',
                                     background: theme.palette.mode === 'light'
-                                        ? `linear-gradient(135deg, ${alpha('#fff', 0.9)} 0%, ${alpha('#f8fafc', 0.9)} 100%)`
-                                        : `linear-gradient(135deg, ${alpha('#1e293b', 0.9)} 0%, ${alpha('#0f172a', 0.9)} 100%)`,
+                                        ? `linear-gradient(135deg, ${alpha(theme.palette.background.paper, 0.9)} 0%, ${alpha(theme.palette.background.default, 0.9)} 100%)`
+                                        : `linear-gradient(135deg, ${alpha(theme.palette.background.paper, 0.9)} 0%, ${alpha(theme.palette.background.default, 0.9)} 100%)`,
                                 }}>
                                     {/* Mockup Header */}
                                     <Stack direction="row" spacing={1} sx={{ mb: 3 }}>

@@ -18,13 +18,16 @@ import {
     Share as ShareIcon,
     BookmarkBorder as SaveIcon,
     Bookmark as SavedIcon,
-    KeyboardArrowDown
+    KeyboardArrowDown,
+    GridView as GridIcon,
+    AllInclusive as SwipeIcon
 } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 import api from "../api/axios";
 import { followUser, unfollowUser } from "../services/socialService";
 import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
-import Loader from "../components/Loader";
+import { PostSkeleton } from "../components/common/Skeletons";
 import SharePostModal from "../components/feed/SharePostModal";
 import CommentModal from "../components/feed/CommentModal";
 import { formatDistanceToNow } from "date-fns";
@@ -72,9 +75,9 @@ const ReelContent = styled(Box)(({ theme }) => ({
     bottom: 0,
     left: 0,
     right: 0,
-    padding: theme.spacing(4),
-    paddingBottom: theme.spacing(6),
-    background: 'linear-gradient(transparent, rgba(0,0,0,0.9))',
+    padding: theme.spacing(3),
+    paddingBottom: theme.spacing(4),
+    background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%)',
     color: '#fff',
     zIndex: 2,
     pointerEvents: 'none',
@@ -94,6 +97,19 @@ const ProgressIndicator = styled(Box)(({ theme }) => ({
     boxShadow: `0 0 10px ${theme.palette.primary.main}`,
 }));
 
+const stripHtmlAndDecode = (html: string) => {
+    let text = html.replace(/<[^>]*>/g, '');
+    const entities: Record<string, string> = {
+        '&nbsp;': ' ',
+        '&amp;': '&',
+        '&lt;': '<',
+        '&gt;': '>',
+        '&quot;': '"',
+        '&#39;': "'",
+    };
+    return text.replace(/&nbsp;|&amp;|&lt;|&gt;|&quot;|&#39;/g, (match) => entities[match] || match);
+};
+
 const InfiniteFeed = () => {
     const { user, checkAuth } = useAuth();
     const { showToast } = useToast();
@@ -110,6 +126,14 @@ const InfiniteFeed = () => {
     const [lastTap, setLastTap] = useState(0);
     const [showLikeHeart, setShowLikeHeart] = useState<{ id: string | null, active: boolean }>({ id: null, active: false });
     const [scrollProgress, setScrollProgress] = useState(0);
+    const [expandedPosts, setExpandedPosts] = useState<Record<string, boolean>>({});
+
+    const toggleExpand = (postId: string) => {
+        setExpandedPosts(prev => ({
+            ...prev,
+            [postId]: !prev[postId]
+        }));
+    };
 
     const fetchPosts = useCallback(async (pageNum: number) => {
         try {
@@ -222,8 +246,8 @@ const InfiniteFeed = () => {
 
     if (loading && posts.length === 0) {
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', bgcolor: '#000' }}>
-                <Loader />
+            <Box sx={{ p: 2, height: '100%', bgcolor: '#000', display: 'flex', flexDirection: 'column', gap: 2 }}>
+                {[1, 2, 3].map((n) => <PostSkeleton key={n} />)}
             </Box>
         );
     }
@@ -231,11 +255,76 @@ const InfiniteFeed = () => {
     return (
         <Box sx={{ height: '100%', overflow: 'hidden', position: 'relative' }}>
             <ProgressIndicator sx={{ width: `${scrollProgress}%` }} />
+
+            {/* Glassy Floating Toggle at the Top Center */}
+            <Box
+                sx={{
+                    position: 'absolute',
+                    top: 16,
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    zIndex: 10,
+                    bgcolor: 'rgba(15, 23, 42, 0.65)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255, 255, 255, 0.18)',
+                    p: 0.35,
+                    borderRadius: '24px',
+                    display: 'flex',
+                    gap: 0.5,
+                    boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.4)'
+                }}
+            >
+                <Button
+                    component={Link}
+                    to="/feed"
+                    variant="text"
+                    size="small"
+                    startIcon={<GridIcon sx={{ fontSize: '1rem', color: 'rgba(255,255,255,0.7)' }} />}
+                    sx={{
+                        borderRadius: '20px',
+                        fontWeight: 900,
+                        fontSize: '0.72rem',
+                        textTransform: 'none',
+                        color: 'rgba(255, 255, 255, 0.75)',
+                        py: 0.5,
+                        px: 2,
+                        '&:hover': {
+                            bgcolor: 'rgba(255,255,255,0.08)'
+                        }
+                    }}
+                >
+                    Grid View
+                </Button>
+                <Button
+                    component={Link}
+                    to="/infinite"
+                    variant="contained"
+                    size="small"
+                    startIcon={<SwipeIcon sx={{ fontSize: '1rem' }} />}
+                    sx={{
+                        borderRadius: '20px',
+                        fontWeight: 900,
+                        fontSize: '0.72rem',
+                        textTransform: 'none',
+                        background: 'linear-gradient(135deg, #6366f1 0%, #a855f7 100%)',
+                        boxShadow: 'none',
+                        py: 0.5,
+                        px: 2,
+                        '&:hover': { 
+                            background: 'linear-gradient(135deg, #4f46e5 0%, #9333ea 100%)',
+                            boxShadow: 'none' 
+                        }
+                    }}
+                >
+                    Swipe View
+                </Button>
+            </Box>
+
             <ReelContainer ref={containerRef} onScroll={handleScroll}>
                 {posts.map((post) => (
                     <ReelItem key={post._id} onClick={() => handleDoubleTap(post)}>
                         {/* Background / Image or Video */}
-                        {post.imageUrl ? (
+                        {post.imageUrl && post.imageUrl.trim() !== '' && post.imageUrl !== 'undefined' ? (
                             post.mediaType === 'video' ? (
                                 <Box
                                     component="video"
@@ -247,7 +336,7 @@ const InfiniteFeed = () => {
                                     sx={{
                                         width: '100%',
                                         height: '100%',
-                                        objectFit: 'contain', // Changed to contain for better video experience if aspect ratio differs
+                                        objectFit: 'cover',
                                         position: 'absolute',
                                         zIndex: 0,
                                         bgcolor: '#000'
@@ -260,7 +349,7 @@ const InfiniteFeed = () => {
                                     sx={{
                                         width: '100%',
                                         height: '100%',
-                                        objectFit: 'contain',
+                                        objectFit: 'cover',
                                         position: 'absolute',
                                         zIndex: 0,
                                         bgcolor: '#000'
@@ -391,22 +480,84 @@ const InfiniteFeed = () => {
                                 )}
                             </Stack>
 
-                            <Typography variant="h4" component="h2" sx={{ fontWeight: 900, mb: 1.5, fontSize: '1.4rem', textShadow: '0 2px 4px rgba(0,0,0,0.4)' }}>
+                            <Typography 
+                                variant="h4" 
+                                component="h2" 
+                                sx={{ 
+                                    fontWeight: 900, 
+                                    mb: 1.5, 
+                                    fontSize: { xs: '1.1rem', sm: '1.3rem', md: '1.5rem' }, 
+                                    textShadow: '0 2px 4px rgba(0,0,0,0.4)',
+                                    lineHeight: 1.2
+                                }}
+                            >
                                 {post.title}
                             </Typography>
 
-                            <Box
-                                sx={{
-                                    maxHeight: '80px',
-                                    overflow: 'hidden',
-                                    opacity: 0.9,
-                                    fontSize: '1rem',
-                                    lineHeight: 1.5,
-                                    mb: 2,
-                                    '& p': { m: 0 }
-                                }}
-                                dangerouslySetInnerHTML={{ __html: post.content }}
-                            />
+                            {expandedPosts[post._id] ? (
+                                <Box sx={{ pointerEvents: 'auto' }}>
+                                    <Box
+                                        sx={{
+                                            maxHeight: '280px',
+                                            overflowY: 'auto',
+                                            opacity: 0.9,
+                                            fontSize: '0.95rem',
+                                            lineHeight: 1.5,
+                                            mb: 1,
+                                            '& p': { m: 0 }
+                                        }}
+                                        dangerouslySetInnerHTML={{ __html: post.content }}
+                                    />
+                                    <Typography
+                                        component="span"
+                                        onClick={(e) => { e.stopPropagation(); toggleExpand(post._id); }}
+                                        sx={{
+                                            color: theme.palette.secondary.light,
+                                            fontWeight: 800,
+                                            cursor: 'pointer',
+                                            fontSize: '0.85rem',
+                                            display: 'inline-block',
+                                            mb: 2,
+                                            '&:hover': { textDecoration: 'underline' }
+                                        }}
+                                    >
+                                        Show Less
+                                    </Typography>
+                                </Box>
+                            ) : (
+                                <Box sx={{ pointerEvents: 'auto', mb: 2 }}>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            opacity: 0.9,
+                                            fontSize: '0.95rem',
+                                            lineHeight: 1.5,
+                                            mb: 1,
+                                            display: 'inline'
+                                        }}
+                                    >
+                                        {stripHtmlAndDecode(post.content).length > 110
+                                            ? `${stripHtmlAndDecode(post.content).slice(0, 105)}... `
+                                            : stripHtmlAndDecode(post.content)}
+                                    </Typography>
+                                    {stripHtmlAndDecode(post.content).length > 110 && (
+                                        <Typography
+                                            component="span"
+                                            onClick={(e) => { e.stopPropagation(); toggleExpand(post._id); }}
+                                            sx={{
+                                                color: theme.palette.secondary.light,
+                                                fontWeight: 800,
+                                                cursor: 'pointer',
+                                                fontSize: '0.85rem',
+                                                display: 'inline',
+                                                '&:hover': { textDecoration: 'underline' }
+                                            }}
+                                        >
+                                            ... More
+                                        </Typography>
+                                    )}
+                                </Box>
+                            )}
 
                             {post.tags?.length > 0 && (
                                 <Stack direction="row" spacing={1} sx={{ mt: 2 }}>

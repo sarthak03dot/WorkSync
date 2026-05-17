@@ -100,16 +100,16 @@ const ResumeShowcaseSection: React.FC = () => {
             justifyContent: 'center',
             alignItems: 'center',
             position: 'relative',
-            minHeight: { xs: '400px', md: '600px' }
+            minHeight: { xs: '420px', md: '600px' }
         },
         resumeWrapper: {
             position: 'relative',
             width: '100%',
             maxWidth: '450px',
-            transform: 'perspective(1000px) rotateY(-5deg)',
+            transform: { xs: 'none', md: 'perspective(1000px) rotateY(-5deg)' },
             transition: 'transform 0.3s ease',
             '&:hover': {
-                transform: 'perspective(1000px) rotateY(0deg)'
+                transform: { xs: 'none', md: 'perspective(1000px) rotateY(0deg)' }
             }
         },
         resumeLayer1: {
@@ -121,7 +121,8 @@ const ResumeShowcaseSection: React.FC = () => {
             bgcolor: 'rgba(255, 255, 255, 0.1)',
             borderRadius: 3,
             border: '2px solid rgba(255, 255, 255, 0.2)',
-            zIndex: 1
+            zIndex: 1,
+            display: { xs: 'none', md: 'block' }
         },
         resumeLayer2: {
             position: 'absolute',
@@ -132,10 +133,11 @@ const ResumeShowcaseSection: React.FC = () => {
             bgcolor: 'rgba(255, 255, 255, 0.05)',
             borderRadius: 3,
             border: '2px solid rgba(255, 255, 255, 0.15)',
-            zIndex: 2
+            zIndex: 2,
+            display: { xs: 'none', md: 'block' }
         },
         resumeMain: {
-            height: { xs: 'auto', md: '85vh' },
+            height: { xs: '380px', md: '85vh' },
             position: 'relative',
             zIndex: 3,
             bgcolor: 'white',
@@ -154,41 +156,41 @@ const ResumeShowcaseSection: React.FC = () => {
         resumeHeader: {
             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             color: 'white',
-            p: 4,
+            p: { xs: 2.5, md: 4 },
             textAlign: 'center'
         },
         resumeName: {
             fontWeight: 800,
-            fontSize: '1.8rem',
+            fontSize: { xs: '1.4rem', md: '1.8rem' },
             mb: 0.5,
             letterSpacing: '1px'
         },
         resumeTitle: {
-            fontSize: '1rem',
+            fontSize: { xs: '0.85rem', md: '1rem' },
             opacity: 0.9,
             mb: 1.5,
             fontWeight: 500
         },
         resumeContact: {
-            fontSize: '0.8rem',
+            fontSize: { xs: '0.7rem', md: '0.8rem' },
             opacity: 0.85,
             display: 'flex',
-            gap: 2,
+            gap: { xs: 1, md: 2 },
             justifyContent: 'center',
             flexWrap: 'wrap'
         },
         resumeBody: {
-            p: 4
+            p: { xs: 2.5, md: 4 }
         },
         resumeSection: {
             mb: 3
         },
         resumeSectionTitle: {
             fontWeight: 700,
-            fontSize: '0.95rem',
+            fontSize: { xs: '0.85rem', md: '0.95rem' },
             color: '#6366f1',
-            mb: 1.5,
-            pb: 0.8,
+            mb: { xs: 1, md: 1.5 },
+            pb: { xs: 0.5, md: 0.8 },
             borderBottom: '2px solid #6366f1',
             textTransform: 'uppercase',
             letterSpacing: '1px'
@@ -198,18 +200,18 @@ const ResumeShowcaseSection: React.FC = () => {
         },
         resumeItemTitle: {
             fontWeight: 700,
-            fontSize: '1rem',
+            fontSize: { xs: '0.85rem', md: '1rem' },
             mb: 0.4,
             color: '#2d3748'
         },
         resumeItemSubtitle: {
-            fontSize: '0.85rem',
+            fontSize: { xs: '0.75rem', md: '0.85rem' },
             color: 'text.secondary',
             mb: 1,
             fontWeight: 500
         },
         resumeItemDesc: {
-            fontSize: '0.85rem',
+            fontSize: { xs: '0.75rem', md: '0.85rem' },
             color: '#4a5568',
             lineHeight: 1.6
         },
@@ -219,8 +221,8 @@ const ResumeShowcaseSection: React.FC = () => {
             gap: 1
         },
         skillChip: {
-            height: 28,
-            fontSize: '0.8rem',
+            height: { xs: 24, md: 28 },
+            fontSize: { xs: '0.7rem', md: '0.8rem' },
             bgcolor: 'rgba(99, 102, 241, 0.1)',
             color: '#6366f1',
             fontWeight: 700,

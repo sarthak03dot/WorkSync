@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Paper, Avatar, Typography, Button, Chip, Stack, Tooltip } from '@mui/material';
+import { Box, Paper, Avatar, Typography, Button, Chip, Stack } from '@mui/material';
 import { Email as EmailIcon } from '@mui/icons-material';
 import { useAuth, User } from '../../context/AuthContext';
 import FollowButton from '../FollowButton';
@@ -131,7 +131,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ displayUser, isOwnProfile
                         </Typography>
                     </Stack>
 
-                    <Stack direction="row" spacing={2} flexWrap="wrap">
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ width: '100%', mt: 2 }}>
                         {!isOwnProfile &&
                             <>
                                 <FollowButton
@@ -141,28 +141,64 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ displayUser, isOwnProfile
                                         console.log('Follow status changed:', newStatus);
                                     }}
                                 />
-                                <Button onClick={handleMessageClick} variant="contained" sx={{ fontWeight: 700 }}>
+                                <Button 
+                                    onClick={handleMessageClick} 
+                                    variant="contained" 
+                                    sx={{ 
+                                        fontWeight: 800,
+                                        borderRadius: '2px',
+                                        py: 1.2,
+                                        px: 3,
+                                        flex: 1,
+                                        width: { xs: '100%', sm: 'auto' }
+                                    }}
+                                >
                                     Message
                                 </Button>
                             </>
                         }
                         {isOwnProfile && (
-                            <Button
-                                variant="outlined"
-                                startIcon={<ContactPageIcon />}
-                                onClick={() => setDevCardOpen(true)}
-                                sx={{
-                                    fontWeight: 700,
-                                    borderRadius: 1.5,
-                                    border: '2px solid',
-                                    '&:hover': {
+                            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ width: '100%' }}>
+                                <Button
+                                    variant="contained"
+                                    startIcon={<AiOutlineEdit />}
+                                    onClick={onEditClick}
+                                    sx={{
+                                        fontWeight: 800,
+                                        borderRadius: '2px',
+                                        boxShadow: 'none',
+                                        py: 1.2,
+                                        px: 3,
+                                        flex: 1,
+                                        width: { xs: '100%', sm: 'auto' },
+                                        '&:hover': {
+                                            boxShadow: 'none'
+                                        }
+                                    }}
+                                >
+                                    Edit Profile
+                                </Button>
+                                <Button
+                                    variant="outlined"
+                                    startIcon={<ContactPageIcon />}
+                                    onClick={() => setDevCardOpen(true)}
+                                    sx={{
+                                        fontWeight: 800,
+                                        borderRadius: '2px',
                                         border: '2px solid',
-                                        bgcolor: 'primary.50'
-                                    }
-                                }}
-                            >
-                                Get Dev Card
-                            </Button>
+                                        py: 1.2,
+                                        px: 3,
+                                        flex: 1,
+                                        width: { xs: '100%', sm: 'auto' },
+                                        '&:hover': {
+                                            border: '2px solid',
+                                            bgcolor: 'primary.50'
+                                        }
+                                    }}
+                                >
+                                    Get Dev Card
+                                </Button>
+                            </Stack>
                         )}
                     </Stack>
                 </Box>
@@ -173,13 +209,6 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ displayUser, isOwnProfile
                     user={displayUser}
                     totalRating={totalRating}
                 />
-                <Box>
-                    {isOwnProfile &&
-                        <Tooltip title="Edit Profile" onClick={onEditClick} style={styles.editbutton} >
-                            <AiOutlineEdit size={32} />
-                        </Tooltip>
-                    }
-                </Box>
             </Box>
         </Paper>
     );
