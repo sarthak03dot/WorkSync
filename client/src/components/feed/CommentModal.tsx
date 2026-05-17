@@ -5,7 +5,6 @@ import {
     DialogActions,
     Button,
     Box,
-    useMediaQuery,
     useTheme,
     List,
     ListItemButton,
@@ -14,12 +13,23 @@ import {
     Avatar,
     Paper,
     Typography,
-    CircularProgress
+    CircularProgress,
+    Slide
 } from "@mui/material";
+import { TransitionProps } from "@mui/material/transitions";
+import React, { useState, useRef, useEffect } from "react";
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
-import { useState, useRef, useEffect } from "react";
 import { searchUsersForChat } from "../../services/chatService";
+
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & {
+        children: React.ReactElement<any, any>;
+    },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 interface User {
     _id: string;
@@ -44,7 +54,6 @@ const CommentModal = ({
     handleComment
 }: CommentModalProps) => {
     const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const quillRef = useRef<any>(null);
     const searchTimeout = useRef<any>(null);
 
@@ -230,11 +239,35 @@ const CommentModal = ({
             onClose={onClose}
             fullWidth
             maxWidth="sm"
-            fullScreen={fullScreen}
+            TransitionComponent={Transition}
+            keepMounted
             PaperProps={{
-                sx: { borderRadius: { sm: 4 } }
+                sx: {
+                    margin: { xs: 0, sm: 'auto' },
+                    position: { xs: 'fixed', sm: 'relative' },
+                    bottom: { xs: 0, sm: 'auto' },
+                    left: { xs: 0, sm: 'auto' },
+                    right: { xs: 0, sm: 'auto' },
+                    maxHeight: { xs: '82vh', sm: '90vh' },
+                    width: '100%',
+                    borderRadius: { xs: '24px 24px 0 0', sm: 4 },
+                    boxShadow: theme.shadows[24],
+                    overflow: 'hidden'
+                }
             }}
         >
+            {/* Instagram style drag indicator pill on mobile */}
+            <Box
+                sx={{
+                    width: 40,
+                    height: 4,
+                    bgcolor: 'action.disabled',
+                    borderRadius: 2,
+                    mx: 'auto',
+                    mt: 1.5,
+                    display: { xs: 'block', sm: 'none' }
+                }}
+            />
             <DialogTitle sx={styles.dialogTitle}>Join the conversation</DialogTitle>
             <DialogContent dividers sx={{ borderBottom: 'none' }}>
                 <Box sx={styles.dialogQuillBox}>

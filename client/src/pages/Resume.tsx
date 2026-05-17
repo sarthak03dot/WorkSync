@@ -11,7 +11,7 @@ import {
 import { Download as DownloadIcon } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 import { format } from 'date-fns';
-// @ts-ignore
+// @ts-expect-error - no types available
 import html2pdf from 'html2pdf.js/src/index.js';
 
 // Templates
@@ -75,13 +75,13 @@ const Resume = () => {
 
     const styles = {
         container: {
-            py: { xs: 2, sm: 4 },
+            pt: { xs: 2, sm: 4 },
+            pb: { xs: 16, sm: 4 },
             backgroundColor: 'background.default',
             minHeight: '100vh',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-
         },
         paper: {
             p: '12mm',
@@ -177,9 +177,9 @@ const Resume = () => {
         },
         actions: {
             position: 'fixed',
-            bottom: 40,
-            right: 40,
-            zIndex: 1000,
+            bottom: { xs: 20, sm: 40 },
+            right: { xs: 20, sm: 40 },
+            zIndex: 1100,
         },
         tech: {
             fontSize: '7pt',
@@ -243,34 +243,12 @@ const Resume = () => {
 
     const ActiveTemplate = TEMPLATES[selectedTemplate].component;
 
-    const handleTabChange = (_: any, newValue: number) => {
+    const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
         setSelectedTemplate(newValue);
     };
 
     return (
         <Box sx={styles.container}>
-            <Box sx={styles.actions}>
-                <Tooltip title="Download as PDF">
-                    <Button
-                        variant="contained"
-                        size="large"
-                        startIcon={<DownloadIcon />}
-                        onClick={handleDownload}
-                        sx={{
-                            borderRadius: '8px',
-                            bgcolor: '#000',
-                            color: '#fff',
-                            '&:hover': { bgcolor: '#333' },
-                            fontWeight: 700,
-                            textTransform: 'none',
-                            px: 4
-                        }}
-                    >
-                        Download PDF
-                    </Button>
-                </Tooltip>
-            </Box>
-
             <Box sx={styles.templatePicker}>
                 <Typography variant="h5" fontWeight={900} sx={{ mb: 3, letterSpacing: '-0.02em', color: 'text.primary' }}>
                     Choose Your Resume Style
@@ -292,20 +270,63 @@ const Resume = () => {
                         />
                     ))}
                 </Tabs>
+
+                <Tooltip title="Download as PDF">
+                    <Button
+                        variant="contained"
+                        size="large"
+                        startIcon={<DownloadIcon />}
+                        onClick={handleDownload}
+                        sx={{
+                            borderRadius: '12px',
+                            background: 'linear-gradient(135deg, #6366f1 0%, #a855f7 100%)',
+                            color: '#fff',
+                            boxShadow: '0 4px 15px rgba(99, 102, 241, 0.4)',
+                            '&:hover': { 
+                                background: 'linear-gradient(135deg, #4f46e5 0%, #9333ea 100%)',
+                                boxShadow: '0 6px 20px rgba(99, 102, 241, 0.6)'
+                            },
+                            fontWeight: 700,
+                            textTransform: 'none',
+                            px: 4,
+                            py: 1.2,
+                            mt: 1.5,
+                            width: { xs: '100%', sm: 'auto' }
+                        }}
+                    >
+                        Download PDF
+                    </Button>
+                </Tooltip>
             </Box>
 
-            <Box sx={styles.previewContainer}>
-                {/* The Paper component acts as our strict A4 Canvas */}
-                <Paper ref={resumeRef} elevation={0} sx={{
-                    borderRadius: 0,
-                    width: '210mm',
-                    minHeight: '297mm',
-                    overflow: 'hidden',
-                    bgcolor: 'white',
-                    boxShadow: '0 20px 50px rgba(0,0,0,0.1)'
-                }}>
-                    <ActiveTemplate user={user} formatDate={formatDate} />
-                </Paper>
+            <Box sx={{
+                width: '100%',
+                overflowX: 'auto',
+                display: 'flex',
+                justifyContent: { xs: 'flex-start', md: 'center' },
+                px: { xs: 2, md: 0 },
+                pb: 4,
+                '&::-webkit-scrollbar': {
+                    height: '6px'
+                },
+                '&::-webkit-scrollbar-thumb': {
+                    bgcolor: 'divider',
+                    borderRadius: '3px'
+                }
+            }}>
+                <Box sx={{ ...styles.previewContainer, minWidth: '210mm' }}>
+                    {/* The Paper component acts as our strict A4 Canvas */}
+                    <Paper ref={resumeRef} elevation={0} sx={{
+                        borderRadius: 0,
+                        width: '210mm',
+                        minHeight: '297mm',
+                        overflow: 'hidden',
+                        bgcolor: 'white',
+                        boxShadow: '0 20px 50px rgba(0,0,0,0.1)'
+                    }}>
+                        <ActiveTemplate user={user} formatDate={formatDate} />
+                    </Paper>
+                </Box>
             </Box>
         </Box>
     );

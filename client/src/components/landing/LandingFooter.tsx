@@ -34,7 +34,7 @@ const LandingFooter: React.FC = () => {
                     {/* Brand Section */}
                     <Grid item xs={12} md={4}>
                         <Stack spacing={3}>
-                            <Logo color="white" />
+                            <Logo />
                             <Typography sx={{ color: colors.textMuted, lineHeight: 1.8, maxWidth: 320 }}>
                                 The elite professional ecosystem for global engineers. Build your identity, manage your growth, and connect with the best.
                             </Typography>
@@ -43,6 +43,7 @@ const LandingFooter: React.FC = () => {
                                     <IconButton key={i} sx={{
                                         bgcolor: colors.bgCard,
                                         color: colors.textSecondary,
+                                        borderRadius: '2px',
                                         '&:hover': { bgcolor: `${colors.primary}1A`, color: colors.primary }
                                     }}>
                                         <Icon fontSize="small" />
@@ -56,7 +57,7 @@ const LandingFooter: React.FC = () => {
                     <Grid item xs={12} md={8}>
                         <Grid container spacing={4}>
                             <Grid item xs={6} sm={4}>
-                                <Typography variant="subtitle2" sx={{ fontWeight: 900, color: '#fff', mb: 3, letterSpacing: 1 }}>
+                                <Typography variant="subtitle2" sx={{ fontWeight: 900, color: colors.primary, mb: 3, letterSpacing: 1.5 }}>
                                     PLATFORM
                                 </Typography>
                                 <Stack spacing={2}>
@@ -79,7 +80,7 @@ const LandingFooter: React.FC = () => {
                             </Grid>
 
                             <Grid item xs={6} sm={4}>
-                                <Typography variant="subtitle2" sx={{ fontWeight: 900, color: '#fff', mb: 3, letterSpacing: 1 }}>
+                                <Typography variant="subtitle2" sx={{ fontWeight: 900, color: colors.primary, mb: 3, letterSpacing: 1.5 }}>
                                     ACCOUNT
                                 </Typography>
                                 <Stack spacing={2}>
@@ -100,20 +101,20 @@ const LandingFooter: React.FC = () => {
                             </Grid>
 
                             <Grid item xs={12} sm={4}>
-                                <Typography variant="subtitle2" sx={{ fontWeight: 900, color: '#fff', mb: 3, letterSpacing: 1 }}>
+                                <Typography variant="subtitle2" sx={{ fontWeight: 900, color: colors.primary, mb: 3, letterSpacing: 1.5 }}>
                                     HEADQUARTERS
                                 </Typography>
                                 <Box sx={{
                                     width: '100%',
                                     height: 120,
-                                    borderRadius: '16px',
+                                    borderRadius: '2px',
                                     overflow: 'hidden',
                                     border: '1px solid rgba(255,255,255,0.05)',
                                     opacity: 0.8,
                                     '&:hover': { opacity: 1 }
                                 }}>
                                     <iframe
-                                        title="FITNESS STUDIO Headquarters"
+                                        title="WorkSync Headquarters"
                                         src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3617.7955797420777!2d82.83031028479296!3d24.93903288508543!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398fb3a31d2d0f03%3A0x3880a314aaf28c29!2sSarthak%20Singh(prinsh)&#39;home!5e0!3m2!1sen!2sin!4v1770901618368!5m2!1sen!2sin'
                                         width="100%"
                                         height="100%"
@@ -131,10 +132,10 @@ const LandingFooter: React.FC = () => {
                 <Divider sx={{ my: 6, borderColor: 'rgba(255,255,255,0.05)' }} />
 
                 <Stack direction={{ xs: 'column', md: 'row' }} justifyContent="space-between" alignItems="center" spacing={3}>
-                    <Typography sx={{ color: '#94a3b8', fontSize: '0.85rem', fontWeight: 500 }}>
-                        © {new Date().getFullYear()} D. Connect Ecosystem. All rights architectural.
+                    <Typography sx={{ color: '#94a3b8', fontSize: '0.85rem', fontWeight: 500, textAlign: { xs: 'center', md: 'left' } }}>
+                        © {new Date().getFullYear()} WorkSync / D. Connect Ecosystem. All rights reserved.
                     </Typography>
-                    <Stack direction="row" spacing={4}>
+                    <Stack direction="row" spacing={{ xs: 2.5, sm: 4 }} flexWrap="wrap" justifyContent="center">
                         {[
                             { name: 'Privacy', path: '/privacy' },
                             { name: 'Terms', path: '/terms' },
@@ -150,7 +151,7 @@ const LandingFooter: React.FC = () => {
                                     textDecoration: 'none',
                                     fontSize: '0.85rem',
                                     fontWeight: 500,
-                                    '&:hover': { color: '#fff' }
+                                    '&:hover': { color: theme.palette.mode === 'dark' ? '#fff' : '#000' }
                                 }}
                             >
                                 {link.name}

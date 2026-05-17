@@ -32,7 +32,7 @@ const DevCardHighlight: React.FC = () => {
                                 variant="contained"
                                 startIcon={<VerifiedIcon />}
                                 sx={{
-                                    borderRadius: '20px',
+                                    borderRadius: '2px',
                                     px: 4,
                                     py: 2,
                                     fontWeight: 900,
@@ -77,37 +77,37 @@ const DevCardHighlight: React.FC = () => {
 
                                 <Stack direction="row" justifyContent="space-between" sx={{ mb: 4 }}>
                                     <Stack direction="row" spacing={1} alignItems="center">
-                                        <Box sx={{ width: 24, height: 24, borderRadius: '6px', background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})` }} />
-                                        <Typography variant="caption" sx={{ fontWeight: 900, color: 'white', letterSpacing: 1 }}>D. CONNECT</Typography>
+                                        <Box sx={{ width: 24, height: 24, borderRadius: '2px', background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})` }} />
+                                        <Typography variant="caption" sx={{ fontWeight: 900, color: '#ffffff', letterSpacing: 1 }}>D. CONNECT</Typography>
                                     </Stack>
-                                    <Box sx={{ px: 1, py: 0.1, borderRadius: 4, bgcolor: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.3)' }}>
+                                    <Box sx={{ px: 1, py: 0.1, borderRadius: '2px', bgcolor: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.3)' }}>
                                         <Typography variant="caption" sx={{ fontWeight: 900, color: '#818cf8', fontSize: '10px' }}>PRO</Typography>
                                     </Box>
                                 </Stack>
 
                                 <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 3 }}>
                                     <Box sx={{ width: 70, height: 70, borderRadius: '50%', border: `2px solid ${colors.primary}`, p: '2px' }}>
-                                        <Box sx={{ width: '100%', height: '100%', borderRadius: '50%', bgcolor: colors.bgDarker }} />
+                                        <Box sx={{ width: '100%', height: '100%', borderRadius: '50%', bgcolor: '#1a1c23' }} />
                                     </Box>
                                     <Box>
-                                        <Typography variant="h6" sx={{ color: colors.text, fontWeight: 900 }}>Elite Developer</Typography>
-                                        <Typography variant="caption" sx={{ color: colors.textMuted }}>Full Stack Architect</Typography>
+                                        <Typography variant="h6" sx={{ color: '#ffffff', fontWeight: 900 }}>Elite Developer</Typography>
+                                        <Typography variant="caption" sx={{ color: '#94a3b8' }}>Full Stack Architect</Typography>
                                     </Box>
                                 </Stack>
 
                                 <Grid container spacing={1.5} sx={{ mb: 3 }}>
                                     {[105, 12, 45].map((val, i) => (
                                         <Grid item xs={4} key={i}>
-                                            <Box sx={{ p: 1, bgcolor: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px', textAlign: 'center' }}>
-                                                <Typography variant="subtitle2" sx={{ fontWeight: 900, color: '#fff' }}>{val}</Typography>
+                                            <Box sx={{ p: 1, bgcolor: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '2px', textAlign: 'center' }}>
+                                                <Typography variant="subtitle2" sx={{ fontWeight: 900, color: '#ffffff' }}>{val}</Typography>
                                                 <Typography variant="caption" sx={{ fontSize: '8px', color: '#64748b', fontWeight: 900 }}>METRIC</Typography>
                                             </Box>
                                         </Grid>
                                     ))}
                                 </Grid>
 
-                                <Box sx={{ mt: 'auto', p: 1.5, bgcolor: colors.bgDark, borderRadius: '12px', border: `1px solid ${colors.border}` }}>
-                                    <Typography variant="caption" sx={{ color: colors.textLight, fontSize: '9px', fontWeight: 900, letterSpacing: 1 }}>GEN-ID: 75WAY-DB03-PRO</Typography>
+                                <Box sx={{ mt: 'auto', p: 1.5, bgcolor: '#161820', borderRadius: '2px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                                    <Typography variant="caption" sx={{ color: '#cbd5e1', fontSize: '9px', fontWeight: 900, letterSpacing: 1 }}>GEN-ID: DCB16-PRO</Typography>
                                 </Box>
                             </Box>
                         </Box>

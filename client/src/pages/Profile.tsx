@@ -12,7 +12,7 @@ import api from "../api/axios";
 import { getNetwork, getUserById } from "../services/socialService";
 import NetworkModal from "../components/NetworkModal";
 import EditProfileDialog, { ProfileUpdateData } from "../components/EditProfileDialog";
-import Loader from "../components/Loader";
+import { ProfileSkeleton } from "../components/common/Skeletons";
 
 // Import profile section components
 import ProfileHeader from "../components/profile/ProfileHeader";
@@ -269,9 +269,7 @@ const Profile = () => {
                 </Typography>
 
                 {profileLoading ? (
-                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-                        <Loader size={60} fullPage />
-                    </Box>
+                    <ProfileSkeleton />
                 ) : (
                     <Grid container spacing={3.5}>
                         {/* Profile Header */}

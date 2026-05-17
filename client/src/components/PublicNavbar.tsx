@@ -216,7 +216,7 @@ const PublicNavbar: React.FC = () => {
 
                         {isMobile ? (
                             <IconButton
-                                color="inherit"
+                                // color="inherit"
                                 aria-label="open drawer"
                                 edge="end"
                                 onClick={handleDrawerToggle}

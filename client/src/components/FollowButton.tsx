@@ -51,11 +51,14 @@ const FollowButton: React.FC<FollowButtonProps> = ({ userId, initialIsFollowing,
             onClick={handleClick}
             disabled={loading}
             sx={{
-                borderRadius: 1,
+                borderRadius: '2px',
                 px: 3,
+                py: 1.2,
                 minWidth: '140px',
                 textTransform: 'none',
-                fontWeight: 700,
+                fontWeight: 800,
+                flex: 1,
+                width: { xs: '100%', sm: 'auto' },
                 boxShadow: isFollowing ? 'none' : '0 4px 12px rgba(99, 102, 241, 0.3)',
                 '&:hover': {
                     boxShadow: isFollowing ? 'none' : '0 6px 16px rgba(99, 102, 241, 0.4)',

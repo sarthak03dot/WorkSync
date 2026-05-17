@@ -1,6 +1,8 @@
 import express, { Express, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 import authRoutes from "./routes/auth.routes";
 import taskRoutes from "./routes/task.routes";
 import socialRoutes from "./routes/social.routes";
@@ -10,6 +12,14 @@ import chatRoutes from "./routes/chat.routes";
 const app: Express = express();
 
 // Middleware
+app.use(helmet());
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 200, // Limit each IP to 200 requests per `window` (here, per 15 minutes)
+    message: "Too many requests from this IP, please try again after 15 minutes",
+});
+app.use("/api", limiter);
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(

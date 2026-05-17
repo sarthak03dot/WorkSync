@@ -1,4 +1,4 @@
-import { Outlet, Navigate, Link, useLocation } from "react-router-dom";
+import { Outlet, Navigate, Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import { useState, useEffect } from "react";
@@ -24,7 +24,7 @@ import {
     Menu as MenuIcon,
     ChevronLeft as ChevronLeftIcon,
     Dashboard as DashboardIcon,
-    Assignment as BoardIcon,
+    Assignment as AssignmentIcon,
     Person as ProfileIcon,
     Forum as FeedIcon,
     Logout as LogoutIcon,
@@ -37,20 +37,19 @@ import {
     MenuBook as DocumentationIcon,
     Chat as ChatIcon,
     Settings as SettingsIcon,
-    AllInclusive as AllInclusiveIcon
+    AllInclusive as AllInclusiveIcon,
+    Add as AddIcon
 } from "@mui/icons-material";
-import TokenCountdown from "../components/TokenCountdown";
 import UserSearch from "../components/UserSearch";
 import UserMenu from "../components/UserMenu";
 import Logo from "../components/common/Logo";
 import React from 'react';
-import LandingFooter from "../components/landing/LandingFooter";
 
 const DRAWER_WIDTH = 280;
 const COLLAPSED_DRAWER_WIDTH = 88;
 
 const PrivateLayout = () => {
-    const { isAuthenticated, loading, logout, user, checkAuth, expiryTime } = useAuth();
+    const { isAuthenticated, loading, logout, user } = useAuth();
     const { theme, toggleTheme } = useTheme();
     const muiTheme = useMuiTheme();
     const isMobile = useMediaQuery(muiTheme.breakpoints.down('md'));
@@ -58,6 +57,7 @@ const PrivateLayout = () => {
 
     const [open, setOpen] = useState(!isTablet);
     const location = useLocation();
+    const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [searchOpen, setSearchOpen] = useState(false);
 
@@ -71,12 +71,13 @@ const PrivateLayout = () => {
     const toggleDrawer = () => setOpen(!open);
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
     const handleClose = () => setAnchorEl(null);
+    const handleGlobalCreatePost = () => navigate('/feed?create=true');
 
     const menuItems = [
         { text: 'Home', icon: <HomeIcon />, path: '/' },
         { text: 'Documentation', icon: <DocumentationIcon />, path: '/documentation' },
         { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
-        { text: 'Task Board', icon: <BoardIcon />, path: '/board' },
+        { text: 'Task Board', icon: <AssignmentIcon />, path: '/board' },
         { text: 'Posts', icon: <FeedIcon />, path: '/feed' },
         { text: 'Post Infinitive', icon: <AllInclusiveIcon />, path: '/infinite' },
         { text: 'Messages', icon: <ChatIcon />, path: '/messages' },
@@ -245,9 +246,10 @@ const PrivateLayout = () => {
             </Box>
 
             {/* Main Content Area */}
-            <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', width: { width: `calc(100% - ${open ? DRAWER_WIDTH : COLLAPSED_DRAWER_WIDTH}px)` } }}>
+            <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', width: { xs: '100%', md: `calc(100% - ${open ? DRAWER_WIDTH : COLLAPSED_DRAWER_WIDTH}px)` } }}>
                 {/* Topbar */}
                 <AppBar
+                    className="global-app-bar"
                     position="sticky"
                     color="transparent"
                     elevation={0}
@@ -267,9 +269,15 @@ const PrivateLayout = () => {
                                 </IconButton>
                             )}
                             {isMobile && (
+                               <>
                                 <IconButton onClick={toggleDrawer} edge="start" color="inherit">
-                                    <MenuIcon />
+                                    <MenuIcon />     
+
                                 </IconButton>
+                                <Box sx={{ width: 16 }} >
+                                                 
+                                    <Logo withText={true} />
+                                    </Box></>
                             )}
                             <Box>
                                 <Typography variant="h4" color="text.primary" sx={{ display: { xs: 'none', sm: 'block' } }}>
@@ -294,7 +302,6 @@ const PrivateLayout = () => {
                             )}
 
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <TokenCountdown expiryTime={expiryTime} onExpire={checkAuth} />
                                 <Tooltip title="Toggle Theme">
                                     <IconButton onClick={toggleTheme} color="inherit">
                                         {theme === 'light' ? <DarkModeIcon /> : <LightModeIcon />}
@@ -326,11 +333,13 @@ const PrivateLayout = () => {
 
                 {/* Content */}
                 <Box
+                    className="global-main-content"
                     component="main"
                     sx={{
                         flexGrow: 1,
                         px: { xs: 2, md: 4 },
-                        py: { xs: 2, md: 8 },
+                        pt: { xs: 2, md: 8 },
+                        pb: { xs: 12, md: 8 },
                         overflowX: 'hidden',
                         position: 'relative'
                     }}
@@ -341,8 +350,113 @@ const PrivateLayout = () => {
                         </Box>
                     </Fade>
                 </Box>
-                <LandingFooter />
             </Box>
+
+            {/* Custom Floating Bottom Bar for mobile devices */}
+            {isMobile && (
+                <Box
+                    className="mobile-bottom-nav"
+                    sx={{
+                        position: 'fixed',
+                        bottom: 20,
+                        left: 16,
+                        right: 16,
+                        height: 72,
+                        bgcolor: theme === 'dark' ? 'rgba(15, 23, 42, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+                        backdropFilter: 'blur(20px)',
+                        border: '1px solid',
+                        borderColor: alpha(theme === 'dark' ? '#fff' : '#000', 0.1),
+                        borderRadius: '24px',
+                        boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        px: 2,
+                        zIndex: 1100
+                    }}
+                >
+                    {/* Left 2 Items */}
+                    <Box sx={{ display: 'flex', width: '40%', justifyContent: 'space-around', alignItems: 'center' }}>
+                        <IconButton
+                            component={Link}
+                            to="/dashboard"
+                            sx={{
+                                color: location.pathname === '/dashboard' ? 'primary.main' : 'text.secondary',
+                                flexDirection: 'column',
+                                gap: 0.5,
+                                p: 1
+                            }}
+                        >
+                            <DashboardIcon sx={{ fontSize: '1.4rem' }} />
+                            <Typography sx={{ fontSize: '0.62rem', fontWeight: 800, whiteSpace: 'nowrap' }}>Dash</Typography>
+                        </IconButton>
+                        <IconButton
+                            component={Link}
+                            to="/messages"
+                            sx={{
+                                color: location.pathname === '/messages' ? 'primary.main' : 'text.secondary',
+                                flexDirection: 'column',
+                                gap: 0.5,
+                                p: 1
+                            }}
+                        >
+                            <ChatIcon sx={{ fontSize: '1.4rem' }} />
+                            <Typography sx={{ fontSize: '0.62rem', fontWeight: 800, whiteSpace: 'nowrap' }}>Chat</Typography>
+                        </IconButton>
+                    </Box>
+
+                    {/* Middle Plus FAB */}
+                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', top: -20, width: '20%' }}>
+                        <IconButton
+                            onClick={handleGlobalCreatePost}
+                            sx={{
+                                width: 54,
+                                height: 54,
+                                background: `linear-gradient(135deg, ${muiTheme.palette.primary.main}, ${muiTheme.palette.secondary.main})`,
+                                color: 'white',
+                                boxShadow: `0 4px 20px 0 ${alpha(muiTheme.palette.primary.main, 0.5)}`,
+                                '&:hover': {
+                                    transform: 'scale(1.1)',
+                                    boxShadow: `0 6px 24px 0 ${alpha(muiTheme.palette.primary.main, 0.6)}`
+                                },
+                                transition: 'all 0.2s ease-out'
+                            }}
+                        >
+                            <AddIcon sx={{ fontSize: '1.8rem' }} />
+                        </IconButton>
+                    </Box>
+
+                    {/* Right 2 Items */}
+                    <Box sx={{ display: 'flex', width: '40%', justifyContent: 'space-around', alignItems: 'center' }}>
+                        <IconButton
+                            component={Link}
+                            to="/feed"
+                            sx={{
+                                color: (location.pathname === '/feed' || location.pathname === '/infinite') ? 'primary.main' : 'text.secondary',
+                                flexDirection: 'column',
+                                gap: 0.5,
+                                p: 1
+                            }}
+                        >
+                            <FeedIcon sx={{ fontSize: '1.4rem' }} />
+                            <Typography sx={{ fontSize: '0.62rem', fontWeight: 800, whiteSpace: 'nowrap' }}>Feed</Typography>
+                        </IconButton>
+                        <IconButton
+                            component={Link}
+                            to="/profile"
+                            sx={{
+                                color: location.pathname === '/profile' ? 'primary.main' : 'text.secondary',
+                                flexDirection: 'column',
+                                gap: 0.5,
+                                p: 1
+                            }}
+                        >
+                            <ProfileIcon sx={{ fontSize: '1.4rem' }} />
+                            <Typography sx={{ fontSize: '0.62rem', fontWeight: 800, whiteSpace: 'nowrap' }}>Me</Typography>
+                        </IconButton>
+                    </Box>
+                </Box>
+            )}
 
         </Box >
     );

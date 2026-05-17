@@ -55,9 +55,9 @@ function TabPanel(props: TabPanelProps) {
     );
 }
 
-const useInView = (options = {}) => {
+const useInView = (options: IntersectionObserverInit = {}) => {
     const [isInView, setIsInView] = useState(false);
-    const ref = useRef(null);
+    const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const observer = new IntersectionObserver(([entry]) => {
@@ -71,14 +71,14 @@ const useInView = (options = {}) => {
         return () => observer.disconnect();
     }, [options]);
 
-    return [ref, isInView];
+    return [ref, isInView] as const;
 };
 
 const ScrollReveal: React.FC<{ children: React.ReactElement, delay?: number }> = ({ children, delay = 0 }) => {
     const [ref, inView] = useInView({ threshold: 0.1 });
     return (
-        <div ref={ref as any}>
-            <Fade in={inView as boolean} timeout={1000} style={{ transitionDelay: `${delay}ms` }}>
+        <div ref={ref}>
+            <Fade in={inView} timeout={1000} style={{ transitionDelay: `${delay}ms` }}>
                 {children}
             </Fade>
         </div>
@@ -110,11 +110,11 @@ const PublicDocumentation: React.FC = () => {
     };
 
     const colors = {
-        primary: '#6366f1',
-        secondary: '#8b5cf6',
-        accent: '#06b6d4',
-        bg: theme.palette.mode === 'light' ? '#f8fafc' : '#020617',
-        glass: theme.palette.mode === 'light' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(15, 23, 42, 0.7)'
+        primary: theme.palette.primary.main,
+        secondary: theme.palette.secondary.main,
+        accent: theme.palette.secondary.light,
+        bg: theme.palette.background.default,
+        glass: theme.palette.mode === 'light' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(17, 24, 39, 0.7)'
     };
 
     // Custom animations

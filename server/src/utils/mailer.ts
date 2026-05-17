@@ -21,8 +21,8 @@ const sendEmail = async (to: string, subject: string, text: string) => {
 
         console.log(`Email sent to ${to}`);
     } catch (error) {
-        console.error("Error sending email:", error);
-        throw new Error("Email could not be sent");
+        console.warn("SMTP email sending failed, logging to console instead:", error);
+        console.log(`\n========================================\n[MAIL] To: ${to}\n[MAIL] Subject: ${subject}\n[MAIL] Text: ${text}\n========================================\n`);
     }
 };
 

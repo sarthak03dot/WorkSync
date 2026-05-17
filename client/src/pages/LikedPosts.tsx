@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, Typography, Grid, Box, CircularProgress, Button, Breadcrumbs, Link as MuiLink, Paper } from "@mui/material";
+import { Container, Typography, Grid, Box, Button, Breadcrumbs, Link as MuiLink, Paper } from "@mui/material";
 import { getLikedPosts } from "../services/socialService";
 import PostItem from "../components/feed/PostItem";
 import { Favorite as FavoriteIcon, NavigateNext } from "@mui/icons-material";
@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import api from "../api/axios";
 import { deleteComment as deleteCommentService } from "../services/socialService";
+import { PostSkeleton } from "../components/common/Skeletons";
 
 interface Comment {
     _id: string;
@@ -128,9 +129,13 @@ const LikedPosts = () => {
             </Box>
 
             {loading ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center', py: 10 }}>
-                    <CircularProgress />
-                </Box>
+                <Grid container spacing={3}>
+                    {[1, 2, 3].map((n) => (
+                        <Grid item xs={12} key={n}>
+                            <PostSkeleton />
+                        </Grid>
+                    ))}
+                </Grid>
             ) : posts.length === 0 ? (
                 <Paper sx={{ p: 6, textAlign: 'center', borderRadius: 4, bgcolor: 'action.hover' }}>
                     <FavoriteIcon sx={{ fontSize: 60, color: 'text.disabled', mb: 2 }} />

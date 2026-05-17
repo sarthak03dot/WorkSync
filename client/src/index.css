@@ -11,6 +11,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -134,4 +138,18 @@ body {
 
 .react-calendar-heatmap .color-scale-4 {
   fill: #39d353;
+}
+
+/* Custom class to hide the floating mobile bottom navigation bar and global topbar */
+body.hide-bottom-bar .mobile-bottom-nav {
+  display: none !important;
+}
+
+@media (max-width: 899px) {
+  body.hide-bottom-bar .global-app-bar {
+    display: none !important;
+  }
+  body.hide-bottom-bar .global-main-content {
+    padding: 0 !important;
+  }
 }

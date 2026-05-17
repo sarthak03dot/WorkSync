@@ -105,14 +105,14 @@ const TerminalShowcaseSection: React.FC = () => {
             py: 1.8,
             fontSize: '1.1rem',
             fontWeight: 700,
-            bgcolor: 'white',
-            color: '#667eea',
+            background: '#ffffff !important',
+            color: '#667eea !important',
             borderRadius: 3,
             textTransform: 'none',
             boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
             transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
             '&:hover': {
-                bgcolor: 'white',
+                background: '#f8fafc !important',
                 transform: 'translateY(-2px)',
                 boxShadow: '0 8px 20px rgba(0,0,0,0.25)'
             },

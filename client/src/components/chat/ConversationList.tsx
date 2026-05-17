@@ -265,7 +265,7 @@ const ConversationList: React.FC<ConversationListProps> = ({ conversations, onSe
                                     />
                                 </ListItemButton>
                             </ListItem>
-                            <Divider variant="inset" component="li" />
+                            <Divider variant="inset" component="li" sx={{ display: { xs: 'none', md: 'block' } }} />
                         </React.Fragment>
                     );
                 })}
